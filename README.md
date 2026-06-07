@@ -38,7 +38,7 @@ As desktop utilities grow, a single control screen becomes insufficient, requiri
     │                 │   ├── frames/
     │                 │   │   └── TaskFrame.java
     │                 │   ├── panels/
-    │                 │   │   └── TaskPanel.java
+    │                 │   │   ├── TaskPanel.java
     │                 │   │   └── MainTabbedPanel.java
     │                 │   ├── dialogs/
     │                 │   │   └── TaskDialog.java
