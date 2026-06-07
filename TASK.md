@@ -1,21 +1,16 @@
-## Technical Specification (TS): Development of a Modular Task Manager using Java Swing
-#### Project Objective: Create a desktop application named "MyAssistantApp" for managing a list of tasks. The project must demonstrate the practical application of Layered Architecture and Clean Code principles.
+## Technical Specification: Modular Desktop Application with Tabbed UI (JavaBasics_Task_563_V0.1)
+### Project Objective: Decouple the primary UI navigation logic from the main application frame into a dedicated component, demonstrating high cohesion and strict adherence to the Single Responsibility Principle (SRP).
 
-### Functional Requirements:
+#### Architectural Requirements:
 
-#### 1. Add Task: The user enters text into a text field and saves it to the list by clicking the "Add" button. The input field must be cleared immediately after saving.
+#### - Strict Package Structure: Maintain consistency with the established multi-layered package layout (com.yurii.pavlenko.app, ui.frames, ui.panels, controller, service, repository, model, actions, util).
 
-#### 2. Delete Task: The user selects a task from the list and removes it by clicking the "Delete" button.
+#### - Thread-Safe Initialization: Validate that all Swing component instantiation occurs strictly within the Event Dispatch Thread (EDT) boundary using SwingUtilities.invokeLater.
 
-#### 3. Edit Task: The user double-clicks an existing task in the list to modify its text. This action must trigger a modal window (`TaskDialog`), pre-populated with the current text of the selected task.
+#### - Frame Responsibility: The TaskFrame class must only configure top-level operating system window parameters (bounds, centering, default close operation) and mount the root composite panel via BorderLayout.CENTER. It must not contain internal tabbed layout logic.
 
-### Architectural and Technical Requirements:
+#### - Composite Panel Extraction: Create a new class, MainTabbedPanel, within the ui.panels package, inheriting from JPanel. This panel isolates the JTabbedPane management.
 
-#### 1. Single Responsibility Principle (SRP): The graphical `TaskPanel` container must focus exclusively on structural layouts and UI components. All action processing logic (adding, deleting, editing) must be decoupled into standalone command classes under the `ui.actions` package, extending Swing's `AbstractAction` (Command Pattern).
+#### - Tab Configuration: MainTabbedPanel must define three tabs: "Tasks" (hosting the existing functional TaskPanel), "Tools" (placeholder JPanel), and "AI Chat" (placeholder JPanel).
 
-#### 2. Multi-Layered Architecture: The codebase must be strictly decoupled into isolated, independent architecture layers: `ui` (Presentation) ➡️ `controller` (Orchestration) ➡️ `service` (Business Logic) ➡️ `repository` (Data Access).
-
-#### 3. Data Persistence Strategy: Implement a decoupled `TaskRepository` interface to enable the Dependency Inversion Principle. The baseline implementation must leverage an in-memory runtime cache (`InMemoryTaskRepositoryImpl`).
-
-#### 4. Centralized Look & Feel Management: Global visual environment styling configurations, Look and Feel setups, and text anti-aliasing configurations must be isolated within a separate `util.Util` class. These parameters must initialize prior to assembling any graphical components to prevent host operating system rendering anomalies.
-#### 5. Coding Standards: Source files, naming conventions, and inline documentation must be authored strictly in English, following industry-standard **Clean Code** conventions.
+#### - Zero Designer Dependency: All graphical interfaces must be constructed strictly via hand-written Java code. All references to IntelliJ IDEA's GUI Designer (.form files) are strictly prohibited.
